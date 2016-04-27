@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hello React 05</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+    var request = window.superagent;
+
+    var GreetingItem = React.createClass({
+        render : function(){
+            return (
+                <li>Hello {this.props.name}</li>
+            );
+        }
+    });
+
+    var GreetingList = React.createClass({
+        render: function(){
+            var greetingItems = this.props.names.map(function(name, i){
+                return (<GreetingItem name={name} key={i} />);
+            });
+
+            return (
+                <div>
+                <h1>Welcome to WEBZ</h1>
+                <ul>{greetingItems}</ul>
+                </div>
+            );
+        }
+    });
+
+    var Echo = React.createClass({
+        echo: function(e){
+            this.props.onChange(e.target.value);
+        },
+
+        isEnterKey: function(e){
+            if (e.keyCode == 13) {
+                this.props.onSave(e.target.value);
+            }
+        },
+
+        render: function() {
+            return (
+                <div>
+                <h3>Please type your name.</h3>
+                <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
+                <h3>{this.props.name}</h3>
+                </div>
+            );
+        }
+    });
+
+    var Welcome = React.createClass({
+        getInitialState: function(){
+            return {
+                names: this.props.names,
+                name: ""
+            }
+        },
+
+        save: function(completeName){
+            var names = this.state.names.concat(completeName);
+            this.setState({
+                names: names,
+                name: ""
+            });
+            request
+              .post("/api.php")
+              .send({name: completeName})
+              .end(function(err, res){
+                 // console.log();
+              });
+
+        },
+
+        echo: function(incompleteName){
+            this.setState({name: incompleteName});
+        },
+
+        componentDidMount: function(){
+            // TODO
+            this.interval = setInterval(function(){
+                request
+                  .get("/api.php")
+                  .end(function(err, res){
+                    var names = res.body;
+                    this.setState({names: names});
+                }.bind(this));
+            }.bind(this), 2000);
+        },
+
+        componentWillUnmount: function () { clearInterval(this.interval);
+            clearInterval(this.interval);
+        },
+
+        render: function(){
+            return(
+                <div>
+                <GreetingList names={this.state.names} />
+                <Echo name={this.state.name} onChange={this.echo} onSave={this.save}/>
+                </div>
+            );
+        }
+    });
+
+    var names = [];
+    ReactDOM.render(
+         <Welcome names={names} />,
+         document.getElementById('example')
+    );
+
+    </script>
+</body>
+</html>
