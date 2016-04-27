@@ -74,6 +74,7 @@
             });
             request
               .post("/api.php")
+              .type("form")
               .send({name: completeName})
               .end(function(err, res){
                  // console.log();
