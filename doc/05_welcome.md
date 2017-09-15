@@ -1,4 +1,4 @@
-# Reactハンズオン 5/5
+# Reactだけ学ぶハンズオン 5/5
 
 ## Part5 Welcome - ハンズオン
 
@@ -16,7 +16,7 @@
 
 titleタグ以外は前章と同じです。ファイル名は05_welcome.htmlという名前で保存しておきます。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -210,7 +210,7 @@ isEnterKey(e){
 
 たとえば、以下のようにEchoコンポーネントを定義しとしましょう。
 
-```javascript
+```html
 <Echo name={this.state.name} onChange={this.foo} onSave={this.bar}/>
 ```
 
@@ -276,7 +276,7 @@ Welcomeコンポーネントのnamesプロパティに3件の名前を指定し�
 
 ここまでの作業をまとめると次のようになります。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>

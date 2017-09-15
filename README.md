@@ -1,11 +1,10 @@
-# Reactハンズオン
+# Reactだけ学ぶハンズオン
 
-1. [Hello React](./doc/01_hello.md)・・・はじめてのReact
-2. [Greeting](./doc/02_greeting.md)・・・プロパティを使ってみる
-3. [GreetingList](./doc/03_greeting_list.md)・・・コレクションの考え方をまなぶ
-4. [Echo](./doc/04_echo.md)・・・ステートを使ってみる
-5. [Welcome](./doc/05_welcome.md)・・・コンポジットなコンポーネントを作る
-
+1. [Hello React](http://murayama.hatenablog.com/entry/2017/09/15/200718)・・・はじめてのReact
+2. [Greeting](http://murayama.hatenablog.com/entry/2017/09/15/201122)・・・プロパティを学ぶ
+3. [GreetingList](http://murayama.hatenablog.com/entry/2017/09/15/201517)・・・コレクションの考え方を学ぶ
+4. [Echo](http://murayama.hatenablog.com/entry/2017/09/15/201714)・・・ステートを学ぶ
+5. [Welcome](http://murayama.hatenablog.com/entry/2017/09/15/201901)・・・コンポジットなコンポーネントの作り方を学ぶ
 
 ## 参考
 

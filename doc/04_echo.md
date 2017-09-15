@@ -1,4 +1,4 @@
-# Reactハンズオン 4/5
+# Reactだけ学ぶハンズオン 4/5
 
 ## Part4 Echo - ハンズオン
 
@@ -16,7 +16,7 @@
 
 titleタグ以外は前章と同じです。ファイル名は04_echo.htmlという名前で保存しておきます。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,7 +42,6 @@ Echoコンポーネントの仕様は以下のとおりです。
 
 ```javascript
 class Echo extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {name: ""};
@@ -137,7 +136,7 @@ Echoコンポーネントにプロパティの指定はありません。
 
 ここまでの作業をまとめると次のようになります。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>

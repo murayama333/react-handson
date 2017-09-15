@@ -1,4 +1,4 @@
-# Reactハンズオン 2/5
+# Reactだけ学ぶハンズオン 2/5
 
 ## Part2 Greeting - ハンズオン
 
@@ -6,7 +6,7 @@
 
 ![](../img/02_greeting.png)
 
-> Web Beginnersという名前が長いので、Webz省略しました。
+> Webzは勉強会（コミュニティ）の名前です。気にせずに。
 
 開発は以下の手順で進めます。
 
@@ -19,7 +19,7 @@
 
 titleタグ以外は前章と同じです。ファイル名は02_greeting.htmlという名前で保存しておきます。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +73,7 @@ ReactDOM.render(
 
 ここまでの作業をまとめると次のようになります。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,4 +1,4 @@
-# Reactハンズオン 3/5
+# Reactだけ学ぶハンズオン 3/5
 
 ## Part3 GreetingList - ハンズオン
 
@@ -16,7 +16,7 @@
 
 titleタグ以外は前章と同じです。ファイル名は03_greeting_list.htmlという名前で保存しておきます。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +55,6 @@ class GreetingItem extends React.Component {
 続いてGreetingListクラスです。
 
 ```javascript
-
 class GreetingList extends React.Component {
   render() {
     var greetingItems = this.props.names.map(function(name, i){
@@ -90,7 +89,7 @@ ReactDOM.render(
 
 ここまでの作業をまとめると次のようになります。
 
-```javascript
+```html
 <!DOCTYPE html>
 <html>
 <head>
