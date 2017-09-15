@@ -6,8 +6,4 @@
 4. [Echo](http://murayama.hatenablog.com/entry/2017/09/15/201714)・・・ステートを学ぶ
 5. [Welcome](http://murayama.hatenablog.com/entry/2017/09/15/201901)・・・コンポジットなコンポーネントの作り方を学ぶ
 
-## 参考
-
-+ [React - Getting Started](https://facebook.github.io/react/docs/getting-started.html)
-+ [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
-+ [生のReactを知ろう – JSX、Flux、ES6、Webpackを使わず…](http://postd.cc/learn-raw-react-no-jsx-flux-es6-webpack/)
+昔のReact勉強会の資料です。内容古かったらすみません。
