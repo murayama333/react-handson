@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 04</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 04</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
+  <div id="example"></div>
+  <script type="text/babel">
 
-    var Echo = React.createClass({
-        getInitialState: function() {
-            return {
-                name: ""
-            };
-        },
+  class Echo extends React.Component {
 
-        echo: function(e){
-            this.setState({name: e.target.value});
-        },
+    constructor(props) {
+      super(props);
+      this.state = {name: ""};
+      // bind this
+      this.echo = this.echo.bind(this);
+    }
 
-        render: function() {
-            return (
-                <div>
-                <h1>Welcome to WEBZ.</h1>
-                <h3>Please type your name.</h3>
-                <input type="text" onChange={this.echo} />
-                <h3>{this.state.name}</h3>
-                </div>
-            );
-        }
-    });
+    echo(e){
+      this.setState({name: e.target.value});
+    }
 
-    ReactDOM.render(
-        <Echo />,
-        document.getElementById('example')
-    );
-    </script>
+    render() {
+      return (
+        <div>
+          <h1>Welcome to WEBZ.</h1>
+          <h3>Please type your name.</h3>
+          <input type="text" onChange={this.echo} />
+          <h3>{this.state.name}</h3>
+        </div>
+      );
+    }
+  }
+
+  ReactDOM.render(
+    <Echo />,
+    document.getElementById('example')
+  );
+  </script>
 </body>
 </html>

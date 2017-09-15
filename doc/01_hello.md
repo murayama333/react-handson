@@ -4,17 +4,16 @@
 
 ReactはUIをつくるためのJavaScriptライブラリです。
 
-+ JUST THE UI
-    + MVCでいうところのV
-+ VIRTUAL DOM
-    + 仮想DOMを使うので、DOM操作系のライブラリは使わない。
-+ DATA FLOW
-    + リアクティブなプログラミング
++ Declarative
+    + 宣言的なプログラミング（たとえばExcelのsum関数）
++ Component-Based
+    + コンポーネントベース（画面を構成する部品を作っていく）
++ Learn Once, Write Anywhere
+    + 一度学べば、どこでも動く（Ract Nativeを使えばスマホアプリも作れる）
 
 ## Part1 Hello React - ハンズオン
 
 ここでは次のような画面にHello Worldと表示するReactアプリケーションを作成します。
-
 
 ![](../img/01_hello.png)
 
@@ -30,14 +29,14 @@ ReactはUIをつくるためのJavaScriptライブラリです。
 Reactで配布されてるreact.js、react-dom.jsを使用します。
 
 ```javascript
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
+<script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+<script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
 ```
 
 また、JSXをサポートするためにBabelのbrowser.min.jsを使用します。
 
 ```
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 ```
 
 ここまでの作業をまとめると以下のとおりです。ファイル名は01_hello.htmlという名前で保存しておきます。
@@ -48,9 +47,9 @@ Reactで配布されてるreact.js、react-dom.jsを使用します。
 <head>
     <meta charset="utf-8">
     <title>Hello React 01</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
 </body>
@@ -64,9 +63,9 @@ Reactで配布されてるreact.js、react-dom.jsを使用します。
 
 ```html
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
-    </script>
+  <div id="example"></div>
+  <script type="text/babel">
+  </script>
 </body>
 ```
 
@@ -77,18 +76,16 @@ divタグはこれから作成するコンポーネントのコンテナとな�
 scriptタグの中に以下のコードを記述します。
 
 ```javascript
-var HelloWorld = React.createClass({
-    render : function(){
-        return (
-            <h1>Hello World</h1>
-        );
-    }
-});
+class HelloWorld extends React.Component {
+  render() {
+    return <h1>Hello World</h1>;
+  }
+}
 ```
 
-React.createClassに指定したオブジェクトをコンポーネント仕様と呼びます。コンポーネント仕様には必ずrenderメソッドを定義しなくてはいけません。
+ここではES2015のオブジェクト指向構文から導入されたclass命令を使ってクラスを定義しています。ここで定義したHelloWorldクラスはReact.Componentを継承しています。このようなクラスはReactコンポーネントと呼ばれます。Reactコンポーネントには必ずrenderメソッドを定義しなくてはいけません。
 
-またReact.createClassの戻り値をコンポーネントクラスと呼びます。ここではHelloWorldという名前のコンポーネントクラスを定義しました。コンポーネントクラスは先頭文字を大文字で記述するとコードが読みやすくなります。
+> renderメソッドの内部では、戻り値がHTMLのようになっています。このような表記法はJSXと呼ばれ、コンポーネントを手軽に記述することができます。JSXをサポートするにはbabelライブラリを読み込む必要があります。JSXの利用は任意です。
 
 
 ### 3. コンポーネントクラスをレンダリング
@@ -97,10 +94,7 @@ React.createClassに指定したオブジェクトをコンポーネント仕様
 
 
 ```javascript
-ReactDOM.render(
-    <HelloWorld />,
-    document.getElementById('example')
-);
+ReactDOM.render(<HelloWorld />, document.getElementById('example'));  
 ```
 
 ここまでの作業をまとめると次のようになります。
@@ -111,25 +105,20 @@ ReactDOM.render(
 <head>
     <meta charset="utf-8">
     <title>Hello React 01</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
     <div id="example"></div>
     <script type="text/babel">
-    var HelloWorld = React.createClass({
-        render : function(){
-            return (
-                <h1>Hello World</h1>
-            );
-        }
-    });
+    class HelloWorld extends React.Component {
+      render() {
+        return <h1>Hello World</h1>;
+      }
+    }
 
-    ReactDOM.render(
-        <HelloWorld />,
-        document.getElementById('example')
-    );
+    ReactDOM.render(<HelloWorld />, document.getElementById('example'));  
     </script>
 </body>
 </html>

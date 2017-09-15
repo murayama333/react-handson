@@ -1,143 +1,152 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 05</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 05</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
 
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </head>
 <body style="padding-top:50px">
-    <div id="container" class="container"></div>
-    <script type="text/babel">
-    var request = window.superagent;
+  <div id="container" class="container"></div>
+  <script type="text/babel">
+  var request = window.superagent;
 
-    var GreetingItem = React.createClass({
-        render : function(){
-            return (
-                <div className="row"><div className="col-md-10 col-md-offset-1 well">{this.props.name}</div></div>
-            );
-        }
-    });
+  class GreetingItem extends React.Component {
+    render() {
+      return (
+        <div className="row"><div className="col-md-10 col-md-offset-1 well">{this.props.name}</div></div>
+      );
+    }
+  }
 
-    var GreetingList = React.createClass({
-        render: function(){
-            var greetingItems = this.props.names.map(function(name, i){
-                return (<GreetingItem name={name} key={i} />);
-            }).reverse();
+  class GreetingList extends React.Component {
+    render() {
+      var greetingItems = this.props.names.map(function(name, i){
+          return (<GreetingItem name={name} key={i} />);
+      }).reverse();
 
-            return (
-                <div className="row">
-                <div className="col-md-12">
-                {greetingItems}
-                </div>
-                </div>
-            );
-        }
-    });
+      return (
+        <div className="row">
+          <div className="col-md-12">
+            {greetingItems}
+          </div>
+        </div>
+      );
+    }
+  }
 
-    var Echo = React.createClass({
-        echo: function(e){
-            this.props.onChange(e.target.value);
-        },
+  class Echo extends React.Component {
+    constructor(props) {
+      super(props);
+      // bind this
+      this.echo = this.echo.bind(this);
+      this.isEnterKey = this.isEnterKey.bind(this);
+    }
 
-        isEnterKey: function(e){
-            if (e.keyCode == 13) {
-                this.props.onSave(e.target.value);
-            }
-        },
+    echo(e){
+      this.props.onChange(e.target.value);
+    }
 
-        render: function() {
-            return (
-                <div className="row">
-                <div className="col-md-10 col-md-offset-1">
-                <div className="form-group">
-                    <label>Please type your message.</label>
-                    <input type="text" className="form-control" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
-                    <p>{this.props.limit}</p>
-                </div>
-                <hr />
-                </div>
-                </div>
-            );
-        }
-    });
+    isEnterKey(e){
+      if (e.keyCode == 13) {
+        this.props.onSave(e.target.value);
+      }
+    }
 
-    var Welcome = React.createClass({
-        getInitialState: function(){
-            return {
-                names: this.props.names,
-                name: ""
-            }
-        },
+    render() {
+      return (
+          <div className="row">
+            <div className="col-md-10 col-md-offset-1">
+              <div className="form-group">
+                <label>Please type your message.</label>
+                <input type="text" className="form-control" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
+                <p>{this.props.limit}</p>
+              </div>
+              <hr />
+            </div>
+          </div>
+      );
+    }
+  }
 
-        save: function(completeName){
-            var names = this.state.names.concat(completeName);
-            this.setState({
-                names: names,
-                name: ""
-            });
-            request
-              .post("/api.php")
-              .type("form")
-              .send({name: completeName})
-              .end(function(err, res){
-                 // console.log();
-              });
+  class Welcome extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        names: this.props.names,
+        name: ""
+      };
+      // bind this
+      this.save = this.save.bind(this);
+      this.echo = this.echo.bind(this);
+    }
 
-        },
+    save(completeName){
+      var names = this.state.names.concat(completeName);
+      this.setState({
+          names: names,
+          name: ""
+      });
+      request
+        .post("/api.php")
+        .type("form")
+        .send({name: completeName})
+        .end(function(err, res){
+           // console.log();
+        });
+    }
 
-        echo: function(incompleteName){
-            if (incompleteName.length <= 140) {
-                this.setState({name: incompleteName});
-            }
-        },
+    echo(incompleteName){
+      this.setState({name: incompleteName});
+    }
 
-        componentDidMount: function(){
-            // TODO
-            this.interval = setInterval(function(){
-                request
-                  .get("/api.php")
-                  .end(function(err, res){
-                    var names = res.body;
-                    this.setState({names: names});
-                }.bind(this));
-            }.bind(this), 2000);
-        },
+    componentDidMount(){
+      // TODO
+      this.interval = setInterval(function(){
+        request
+          .get("/api.php")
+          .end(function(err, res){
+            var names = res.body;
+            this.setState({names: names});
+        }.bind(this));
+      }.bind(this), 5000);
+    }
 
-        componentWillUnmount: function () { clearInterval(this.interval);
-            clearInterval(this.interval);
-        },
+    componentWillUnmount() { clearInterval(this.interval);
+      clearInterval(this.interval);
+    }
 
-        render: function(){
-            return(
-                <div>
-                <Echo name={this.state.name} onChange={this.echo} onSave={this.save} limit={140 - this.state.name.length}/>
-                <GreetingList names={this.state.names} />
-                </div>
-            );
-        }
-    });
+    render(){
+      return(
+        <div>
+          <Echo name={this.state.name} onChange={this.echo} onSave={this.save} limit={140 - this.state.name.length}/>
+          <GreetingList names={this.state.names} />
+        </div>
+      );
+    }
+  }
 
-    var names = [];
-    ReactDOM.render(
-         <Welcome names={names} />,
-         document.getElementById('container')
-    );
+  var names = [];
+  ReactDOM.render(
+    <Welcome names={names} />,
+    document.getElementById('container')
+  );
 
-    </script>
+  </script>
 </body>
 </html>

@@ -20,13 +20,16 @@ titleタグ以外は前章と同じです。ファイル名は04_echo.htmlとい
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 04</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 04</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
+  <div id="example"></div>
+  <script type="text/babel">
+  </script>
 </body>
 </html>
 ```
@@ -38,55 +41,60 @@ titleタグ以外は前章と同じです。ファイル名は04_echo.htmlとい
 Echoコンポーネントの仕様は以下のとおりです。
 
 ```javascript
-var Echo = React.createClass({
-    getInitialState: function() {
-        return {
-            name: ""
-        };
-    },
+class Echo extends React.Component {
 
-    echo: function(e){
-        this.setState({name: e.target.value});
-    },
+  constructor(props) {
+    super(props);
+    this.state = {name: ""};
+    // bind this
+    this.echo = this.echo.bind(this);
+  }
 
-    render: function() {
-        return (
-            <div>
-            <h1>Welcome to WEBZ.</h1>
-            <h3>Please type your name.</h3>
-            <input type="text" onChange={this.echo} />
-            <h3>{this.state.name}</h3>
-            </div>
-        );
-    }
-});
+  echo(e){
+    this.setState({name: e.target.value});
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Welcome to WEBZ.</h1>
+        <h3>Please type your name.</h3>
+        <input type="text" onChange={this.echo} />
+        <h3>{this.state.name}</h3>
+      </div>
+    );
+  }
+}
 ```
 
-renderメソッド以外にgetInitialState、echoメソッドの2つが追加されています。getInitialStateメソッドの説明に入る前にReactのステートについて学習しておきましょう。
+renderメソッド以外にconstructor、echoメソッドの2つが追加されています。constructorの説明に入る前にReactのステートについて学習しておきましょう。
 
-Reactにはステートという仕組みがあります。ステートとはコンポーネントの状態を表すものです。先のEchoコンポーネントには、「（入力された）名前」を示すnameというステートがあります。Reactのコンポーネントはステートの内容が更新されると自動的に再描画（renderメソッド呼び出し）されるようになっています。
+Reactにはステートという仕組みがあります。ステートとはコンポーネントの状態を表すものです。上記のEchoコンポーネントには「（入力された）名前」を示すnameというステートがあります。Reactのコンポーネントはステートの内容が更新されると自動的に再描画（renderメソッド呼び出し）されるようになっています。
 
-getInitialStateメソッドはReactコンポーネントのライフサイクルメソッドの1つで、コンポーネントインスタンスの生成時に呼び出されます。getInitialStateメソッドでステートの初期値を設定できます。
+constructorはReactコンポーネントのライフサイクルメソッドの1つで、コンポーネントインスタンスの生成時に呼び出されます。constructorでステートの初期値を設定できます。
 
 ```javascript
-getInitialState: function() {
-    return {
-        name: ""
-    };
-},
+constructor(props) {
+  super(props);
+  this.state = {name: ""};
+  // bind this
+  this.echo = this.echo.bind(this);
+}
 ```
 
 上記のコードではnameステートの初期値を空文字で設定しています。
 
+> this.echo = this.echo.bind(this); は後の echoメソッド を利用できるようにしています。
+
 つづいてechoメソッドを見てみましょう。
 
 ```javascript
-echo: function(e){
-    this.setState({name: e.target.value});
-},
+echo(e){
+  this.setState({name: e.target.value});
+}
 ```
 
-echoメソッドはgetInitialStateのようなReactに依存したものではなく、アプリケーション独自のメソッドです。echoメソッドはrenderメソッドの中でinputタグのonChangeイベントハンドラに関連付けられています。
+echoメソッドはReactの仕組みに依存したものではなく、アプリケーション独自のメソッドです。echoメソッドはrenderメソッドの中でinputタグのonChangeイベントハンドラに関連付けられています。
 
 ```html
 <input type="text" onChange={this.echo} />
@@ -99,19 +107,19 @@ echoメソッドはgetInitialStateのようなReactに依存したものでは�
 echoメソッドによってステートが更新されるとコンポーネントのrenderメソッドがReactによって呼び出されます。
 
 ```javascript
-render: function() {
-    return (
-        <div>
-        <h1>Welcome to WEBZ.</h1>
-        <h3>Please type your name.</h3>
-        <input type="text" onChange={this.echo} />
-        <h3>{this.state.name}</h3>
-        </div>
-    );
+render() {
+  return (
+    <div>
+      <h1>Welcome to WEBZ.</h1>
+      <h3>Please type your name.</h3>
+      <input type="text" onChange={this.echo} />
+      <h3>{this.state.name}</h3>
+    </div>
+  );
 }
 ```
 
-これによってテキストっボックスに入力した内容が即座に画面に表示されるようになります。
+これによってテキストボックスに入力した内容が即座に画面に表示されるようになります。
 
 
 ### 3. コンポーネントクラスをレンダリング
@@ -120,13 +128,12 @@ render: function() {
 
 ```javascript
 ReactDOM.render(
-    <Echo />,
-    document.getElementById('example')
+  <Echo />,
+  document.getElementById('example')
 );
 ```
 
 Echoコンポーネントにプロパティの指定はありません。
-
 
 ここまでの作業をまとめると次のようになります。
 
@@ -134,44 +141,45 @@ Echoコンポーネントにプロパティの指定はありません。
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 04</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 04</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
+  <div id="example"></div>
+  <script type="text/babel">
 
-    var Echo = React.createClass({
-        getInitialState: function() {
-            return {
-                name: ""
-            };
-        },
+  class Echo extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {name: ""};
+      // bind this
+      this.echo = this.echo.bind(this);
+    }
 
-        echo: function(e){
-            this.setState({name: e.target.value});
-        },
+    echo(e){
+      this.setState({name: e.target.value});
+    }
 
-        render: function() {
-            return (
-                <div>
-                <h1>Welcome to WEBZ.</h1>
-                <h3>Please type your name.</h3>
-                <input type="text" onChange={this.echo} />
-                <h3>{this.state.name}</h3>
-                </div>
-            );
-        }
-    });
+    render() {
+      return (
+        <div>
+          <h1>Welcome to WEBZ.</h1>
+          <h3>Please type your name.</h3>
+          <input type="text" onChange={this.echo} />
+          <h3>{this.state.name}</h3>
+        </div>
+      );
+    }
+  }
 
-    ReactDOM.render(
-        <Echo />,
-        document.getElementById('example')
-    );
-    </script>
+  ReactDOM.render(
+    <Echo />,
+    document.getElementById('example')
+  );
+  </script>
 </body>
 </html>
 ```

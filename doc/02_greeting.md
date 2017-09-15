@@ -23,13 +23,16 @@ titleタグ以外は前章と同じです。ファイル名は02_greeting.html�
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 02</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 02</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
+  <div id="example"></div>
+  <script type="text/babel">
+  </script>
 </body>
 </html>
 ```
@@ -40,16 +43,16 @@ titleタグ以外は前章と同じです。ファイル名は02_greeting.html�
 Reactのコンポーネントクラスを定義するために、コンポーネント仕様を作成します。
 
 ```javascript
-var Greeting = React.createClass({
-    render : function(){
-        return (
-            <div>
-            <h1>Welcome to Webz</h1>
-            <h2>Hello {this.props.name}</h2>
-            </div>
-        );
-    }
-});
+class Greeting extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Welcome to Webz</h1>
+        <h2>Hello {this.props.name}</h2>
+      </div>
+    );
+  }
+}
 ```
 
 renderメソッドではJSXを使ってコンポーネントを定義していますが、h2タグの中で{this.props.name}を指定しています。これはReactのプロパティという仕組みを使っています。プロパティとはReactコンポーネントの外部インタフェースです。ここでは外部から指定されたnameプロパティを表示するようにしています。nameプロパティの指定は、後のレンダリング時に指定します。
@@ -63,8 +66,8 @@ renderメソッドではJSXを使ってコンポーネントを定義してい�
 ```javascript
 var name = "Murayama";
 ReactDOM.render(
-    <Greeting name={name} />,
-    document.getElementById('example')
+  <Greeting name={name} />,
+  document.getElementById('example')
 );
 ```
 
@@ -74,32 +77,32 @@ ReactDOM.render(
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 02</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 02</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
-    var Greeting = React.createClass({
-        render : function(){
-            return (
-                <div>
-                <h1>Welcome to Webz</h1>
-                <h2>Hello {this.props.name}</h2>
-                </div>
-            );
-        }
-    });
+  <div id="example"></div>
+  <script type="text/babel">
+  class Greeting extends React.Component {
+    render() {
+      return (
+        <div>
+          <h1>Welcome to Webz</h1>
+          <h2>Hello {this.props.name}</h2>
+        </div>
+      );
+    }
+  }
 
-    var name = "Murayama";
-    ReactDOM.render(
-        <Greeting name={name} />,
-        document.getElementById('example')
-    );
-    </script>
+  var name = "Murayama";
+  ReactDOM.render(
+    <Greeting name={name} />,
+    document.getElementById('example')
+  );
+  </script>
 </body>
 </html>
 ```

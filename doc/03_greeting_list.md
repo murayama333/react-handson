@@ -20,13 +20,16 @@ titleタグ以外は前章と同じです。ファイル名は03_greeting_list.h
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 03</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 03</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
+  <div id="example"></div>
+  <script type="text/babel">
+  </script>
 </body>
 </html>
 ```
@@ -38,13 +41,13 @@ Reactのコンポーネントクラスを定義するために、コンポーネ
 GreetingItemクラスは以下のとおりです。
 
 ```javascript
-var GreetingItem = React.createClass({
-    render : function(){
-        return (
-            <li>Hello {this.props.name}</li>
-        );
-    }
-});
+class GreetingItem extends React.Component {
+  render() {
+    return (
+      <li>Hello {this.props.name}</li>
+    );
+  }
+}
 ```
 
 前章で作成したGreetingクラスとほとんど同じです。nameプロパティの内容をレンダリングします。
@@ -52,20 +55,21 @@ var GreetingItem = React.createClass({
 続いてGreetingListクラスです。
 
 ```javascript
-var GreetingList = React.createClass({
-    render: function(){
-        var greetingItems = this.props.names.map(function(name, i){
-            return (<GreetingItem name={name} key={i} />);
-        });
 
-        return (
-            <div>
-            <h1>Welcome to Webz</h1>
-            <ul>{greetingItems}</ul>
-            </div>
-        );
-    }
-});
+class GreetingList extends React.Component {
+  render() {
+    var greetingItems = this.props.names.map(function(name, i){
+        return <GreetingItem name={name} key={i} />;
+    });
+
+    return (
+      <div>
+        <h1>Welcome to Webz</h1>
+        <ul>{greetingItems}</ul>
+      </div>
+    );
+  }
+}
 ```
 
 GreetingListコンポーネントはnamesプロパティから名前の配列を受け取ります。実際の値の受け渡しは後のrenderフェーズで指定します。
@@ -76,12 +80,11 @@ renderメソッドではnamesプロパティをループして、JSXを使って
 
 作成したコンポーネントクラス（GreetingList）を画面にレンダリングします。GreetingListコンポーネントにnamesプロパティを指定している点を確認しておいてください。
 
-
 ```javascript
 var names = ["Murayama", "Takahashi", "Sanada"];
 ReactDOM.render(
-    <GreetingList names={names} />,
-    document.getElementById('example')
+  <GreetingList names={names} />,
+  document.getElementById('example')
 );
 ```
 
@@ -91,44 +94,44 @@ ReactDOM.render(
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 03</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 03</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
-    var GreetingItem = React.createClass({
-        render : function(){
-            return (
-                <li>Hello {this.props.name}</li>
-            );
-        }
-    });
+  <div id="example"></div>
+  <script type="text/babel">
+  class GreetingItem extends React.Component {
+    render() {
+      return (
+        <li>Hello {this.props.name}</li>
+      );
+    }
+  }
 
-    var GreetingList = React.createClass({
-        render: function(){
-            var greetingItems = this.props.names.map(function(name, i){
-                return (<GreetingItem name={name} key={i} />);
-            });
+  class GreetingList extends React.Component {
+    render() {
+      var greetingItems = this.props.names.map(function(name, i){
+          return <GreetingItem name={name} key={i} />;
+      });
 
-            return (
-                <div>
-                <h1>Welcome to Webz</h1>
-                <ul>{greetingItems}</ul>
-                </div>
-            );
-        }
-    });
+      return (
+        <div>
+          <h1>Welcome to Webz</h1>
+          <ul>{greetingItems}</ul>
+        </div>
+      );
+    }
+  }
 
-    var names = ["Murayama", "Takahashi", "Sanada"];
-    ReactDOM.render(
-        <GreetingList names={names} />,
-        document.getElementById('example')
-    );
-    </script>
+  var names = ["Murayama", "Takahashi", "Sanada"];
+  ReactDOM.render(
+    <GreetingList names={names} />,
+    document.getElementById('example')
+  );
+  </script>
 </body>
 </html>
 ```

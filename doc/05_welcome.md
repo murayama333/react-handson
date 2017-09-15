@@ -20,13 +20,16 @@ titleタグ以外は前章と同じです。ファイル名は05_welcome.htmlと
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 05</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 05</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
+  <div id="example"></div>
+  <script type="text/babel">
+  </script>
 </body>
 </html>
 ```
@@ -43,95 +46,105 @@ titleタグ以外は前章と同じです。ファイル名は05_welcome.htmlと
 各コンポーネント仕様は次のようになります。
 
 ```javascript
-var GreetingItem = React.createClass({
-    render : function(){
-    }
-});
+class GreetingItem extends React.Component {
+  render() {
+  }
+}
 
-var GreetingList = React.createClass({
-    render: function(){
-    }
-});
+class GreetingList extends React.Component {
+  render() {
+  }
+}
 
-var Echo = React.createClass({
-    echo: function(e){
-    },
+class Echo extends React.Component {
+  constructor(props) {
+  }
 
-    isEnterKey: function(e){
-    },
+  echo(e){
+  }
 
-    render: function() {
-    }
-});
+  isEnterKey(e){
+  }
 
-var Welcome = React.createClass({
-    getInitialState: function(){
-    },
+  render() {
+  }
+}
 
-    save: function(completeName){
-    },
+class Welcome extends React.Component {
+  constructor(props) {
+  }
 
-    echo: function(incompleteName){
-    },
+  save(completeName){
+  }
 
-    render: function(){
-    }
-});
+  echo(incompleteName){
+  }
+
+  render(){
+  }
+}
 ```
 
 コードが長くなるので順に見ていきましょう。まずはGreetingItemとGreetingListです。
 
 ```javascript
-var GreetingItem = React.createClass({
-    render : function(){
-        return (
-            <li>Hello {this.props.name}</li>
-        );
-    }
-});
+class GreetingItem extends React.Component {
+  render() {
+    return (
+      <li>Hello {this.props.name}</li>
+    );
+  }
+}
 
-var GreetingList = React.createClass({
-    render: function(){
-        var greetingItems = this.props.names.map(function(name, i){
-            return (<GreetingItem name={name} key={i} />);
-        });
+class GreetingList extends React.Component {
+  render() {
+    var greetingItems = this.props.names.map(function(name, i){
+        return <GreetingItem name={name} key={i} />;
+    });
 
-        return (
-            <div>
-            <h1>Welcome to WEBZ</h1>
-            <ul>{greetingItems}</ul>
-            </div>
-        );
-    }
-});
+    return (
+      <div>
+        <h1>Welcome to Webz</h1>
+        <ul>{greetingItems}</ul>
+      </div>
+    );
+  }
+}
 ```
 
-GreetingItem、GreetingListについては先に作成した内容と同じです。GreetingListのnamesプロパティに名前の配列を設定することで、個々の名前が子要素のGreetingItemのnameプロパティに設定されます。
+GreetingItem、GreetingListについては以前に作成した内容と同じです。GreetingListのnamesプロパティに名前の配列を設定することで、個々の名前が子要素のGreetingItemのnameプロパティに設定されます。
 
 つづいてEchoコンポーネントです。
 
 ```javascript
-var Echo = React.createClass({
-    echo: function(e){
-        this.props.onChange(e.target.value);
-    },
+class Echo extends React.Component {
+  constructor(props) {
+    super(props);
+    // bind this
+    this.echo = this.echo.bind(this);
+    this.isEnterKey = this.isEnterKey.bind(this);
+  }
 
-    isEnterKey: function(e){
-        if (e.keyCode == 13) {
-            this.props.onSave(e.target.value);
-        }
-    },
+  echo(e){
+    this.props.onChange(e.target.value);
+  }
 
-    render: function() {
-        return (
-            <div>
-            <h3>Please type your name.</h3>
-            <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
-            <h3>{this.props.name}</h3>
-            </div>
-        );
+  isEnterKey(e){
+    if (e.keyCode == 13) {
+      this.props.onSave(e.target.value);
     }
-});
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>Please type your name.</h3>
+        <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
+        <h3>{this.props.name}</h3>
+      </div>
+    );
+  }
+}
 ```
 
 Echoコンポーネントは以前に作成したものと以下の点で異なります。
@@ -152,14 +165,14 @@ Reactで、複合コンポーネントを作成する場合、可能な限りス
 上記の場合、ステートはWelcomeコンポーネントで管理すべきです。従って入力中の名前を示すnameプロパティをWelcomeコンポーネントで定義し、代わりにEchoコンポーネントには、Welcomeコンポーネントとの外部インタフェースとなるnameプロパティを用意します。親コンポーネントのステートの変更をnameプロパティ経由で受け取るようにします。
 
 ```javascript
-render: function() {
-    return (
-        <div>
-        <h3>Please type your name.</h3>
-        <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
-        <h3>{this.props.name}</h3>
-        </div>
-    );
+render() {
+  return (
+    <div>
+      <h3>Please type your name.</h3>
+      <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
+      <h3>{this.props.name}</h3>
+    </div>
+  );
 }
 ```
 
@@ -168,9 +181,9 @@ render: function() {
 Echoコンポーネントからnameステートを排除したので、echoメソッドの実装は次のようにonChangeプロパティを呼び出すようにします。
 
 ```javascript
-echo: function(e){
-    this.props.onChange(e.target.value);
-},
+echo(e){
+  this.props.onChange(e.target.value);
+}
 ```
 
 Echoコンポーネントを利用する親コンポーネント（今回の場合Welcomeコンポーネント）では次のようにプロパティを指定します。
@@ -186,11 +199,11 @@ Echoコンポーネントを利用する親コンポーネント（今回の場�
 onKeyDownイベントハンドラのisEnterKeyメソッドは次のようになっています。
 
 ```javascript
-isEnterKey: function(e){
-    if (e.keyCode == 13) {
-        this.props.onSave(e.target.value);
-    }
-},
+isEnterKey(e){
+  if (e.keyCode == 13) {
+    this.props.onSave(e.target.value);
+  }
+}
 ```
 
 キーコード：13とはEnterキーを意味しています。つまり、Enterキーが入力された場合、onSaveプロパティ（関数）を呼び出すようにしています。
@@ -203,42 +216,45 @@ isEnterKey: function(e){
 
 Enterキークリック時に、onSaveプロパティで指定されたbarメソッドが呼び出されることになります。
 
-
 さいごに親コンポーネントとなるWelcomeのコンポーネント仕様を実装します。
 
 ```javascript
-var Welcome = React.createClass({
-    getInitialState: function(){
-        return {
-            names: this.props.names,
-            name: ""
-        }
-    },
+class Welcome extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      names: this.props.names,
+      name: ""
+    };
+    // bind this
+    this.save = this.save.bind(this);
+    this.echo = this.echo.bind(this);
+  }
 
-    echo: function(incompleteName){
-        this.setState({name: incompleteName});
-    },
+  save(completeName){
+    var names = this.state.names.concat(completeName);
+    this.setState({
+      names: names,
+      name: ""
+    });
+  }
 
-    save: function(completeName){
-        var names = this.state.names.concat(completeName);
-        this.setState({
-            names: names,
-            name: ""
-        });
-    },
+  echo(incompleteName){
+    this.setState({name: incompleteName});
+  }
 
-    render: function(){
-        return(
-            <div>
-            <GreetingList names={this.state.names} />
-            <Echo name={this.state.name} onChange={this.echo} onSave={this.save}/>
-            </div>
-        );
-    }
-});
+  render(){
+    return(
+      <div>
+        <GreetingList names={this.state.names} />
+        <Echo name={this.state.name} onChange={this.echo} onSave={this.save}/>
+      </div>
+    );
+  }
+}
 ```
 
-getInitialStateメソッドで初期ステートを指定します。ステートはnames配列と、name文字列の2つです。namesステートはGreetingListコンポーネントのnamesプロパティに指定し、nameステートはEchoコンポーネントのnameプロパティに指定します。
+constructorで初期ステートを指定します。ステートはnames配列と、name文字列の2つです。namesステートはGreetingListコンポーネントのnamesプロパティに指定し、nameステートはEchoコンポーネントのnameプロパティに指定します。
 
 echoメソッド、saveメソッドはステートを更新します。これらのメソッドはEchoコンポーネントのイベントハンドラに指定しているので、Echoコンポーネントにおいて、イベントが発生時するとコールバックされます。
 
@@ -251,13 +267,12 @@ renderメソッドではGreetingListと、Echoコンポーネントをレンダ�
 ```javascript
 var names = ["Murayama", "Takahashi", "Sanada"];
 ReactDOM.render(
-    <Welcome names={names} />,
-    document.getElementById('example')
+  <Welcome names={names} />,
+  document.getElementById('example')
 );
 ```
 
 Welcomeコンポーネントのnamesプロパティに3件の名前を指定します。こうすることで、画面描画時の初期値として表示されます。
-
 
 ここまでの作業をまとめると次のようになります。
 
@@ -265,97 +280,107 @@ Welcomeコンポーネントのnamesプロパティに3件の名前を指定し�
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Hello React 05</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.1/react-dom.js" charset="utf-8"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <meta charset="utf-8">
+  <title>Hello React 05</title>
+  <script src="https://unpkg.com/react@15.6.1/dist/react.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/react-dom@15.6.1/dist/react-dom.js" charset="utf-8"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.js"></script>
 </head>
 <body>
-    <div id="example"></div>
-    <script type="text/babel">
+  <div id="example"></div>
+  <script type="text/babel">
+  class GreetingItem extends React.Component {
+    render() {
+      return (
+        <li>Hello {this.props.name}</li>
+      );
+    }
+  }
 
-    var GreetingItem = React.createClass({
-        render : function(){
-            return (
-                <li>Hello {this.props.name}</li>
-            );
-        }
-    });
+  class GreetingList extends React.Component {
+    render() {
+      var greetingItems = this.props.names.map(function(name, i){
+          return <GreetingItem name={name} key={i} />;
+      });
 
-    var GreetingList = React.createClass({
-        render: function(){
-            var greetingItems = this.props.names.map(function(name, i){
-                return (<GreetingItem name={name} key={i} />);
-            });
+      return (
+        <div>
+          <h1>Welcome to Webz</h1>
+          <ul>{greetingItems}</ul>
+        </div>
+      );
+    }
+  }
 
-            return (
-                <div>
-                <h1>Welcome to WEBZ</h1>
-                <ul>{greetingItems}</ul>
-                </div>
-            );
-        }
-    });
+  class Echo extends React.Component {
+    constructor(props) {
+      super(props);
+      // bind this
+      this.echo = this.echo.bind(this);
+      this.isEnterKey = this.isEnterKey.bind(this);
+    }
 
-    var Echo = React.createClass({
-        echo: function(e){
-            this.props.onChange(e.target.value);
-        },
+    echo(e){
+      this.props.onChange(e.target.value);
+    }
 
-        isEnterKey: function(e){
-            if (e.keyCode == 13) {
-                this.props.onSave(e.target.value);
-            }
-        },
+    isEnterKey(e){
+      if (e.keyCode == 13) {
+        this.props.onSave(e.target.value);
+      }
+    }
 
-        render: function() {
-            return (
-                <div>
-                <h3>Please type your name.</h3>
-                <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
-                <h3>{this.props.name}</h3>
-                </div>
-            );
-        }
-    });
+    render() {
+      return (
+        <div>
+          <h3>Please type your name.</h3>
+          <input type="text" onChange={this.echo} onKeyDown={this.isEnterKey} value={this.props.name}/>
+          <h3>{this.props.name}</h3>
+        </div>
+      );
+    }
+  }
 
-    var Welcome = React.createClass({
-        getInitialState: function(){
-            return {
-                names: this.props.names,
-                name: ""
-            }
-        },
+  class Welcome extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        names: this.props.names,
+        name: ""
+      };
+      // bind this
+      this.save = this.save.bind(this);
+      this.echo = this.echo.bind(this);
+    }
 
-        echo: function(incompleteName){
-            this.setState({name: incompleteName});
-        },
+    save(completeName){
+      var names = this.state.names.concat(completeName);
+      this.setState({
+        names: names,
+        name: ""
+      });
+    }
 
-        save: function(completeName){
-            var names = this.state.names.concat(completeName);
-            this.setState({
-                names: names,
-                name: ""
-            });
-        },
+    echo(incompleteName){
+      this.setState({name: incompleteName});
+    }
 
-        render: function(){
-            return(
-                <div>
-                <GreetingList names={this.state.names} />
-                <Echo name={this.state.name} onChange={this.echo} onSave={this.save}/>
-                </div>
-            );
-        }
-    });
+    render(){
+      return(
+        <div>
+          <GreetingList names={this.state.names} />
+          <Echo name={this.state.name} onChange={this.echo} onSave={this.save}/>
+        </div>
+      );
+    }
+  }
 
-    var names = ["Murayama", "Takahashi", "Sanada"];
-    ReactDOM.render(
-        <Welcome names={names} />,
-        document.getElementById('example')
-    );
-    </script>
+  var names = ["Murayama", "Takahashi", "Sanada"];
+  ReactDOM.render(
+    <Welcome names={names} />,
+    document.getElementById('example')
+  );
+  </script>
 </body>
 </html>
 ```

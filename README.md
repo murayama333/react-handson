@@ -12,5 +12,3 @@
 + [React - Getting Started](https://facebook.github.io/react/docs/getting-started.html)
 + [【翻訳】あなたが求めていたリアクティブプログラミング入門](http://ninjinkun.hatenablog.com/entry/introrxja)
 + [生のReactを知ろう – JSX、Flux、ES6、Webpackを使わず…](http://postd.cc/learn-raw-react-no-jsx-flux-es6-webpack/)
-+ [Amazon - 入門React](http://www.amazon.co.jp/dp/4873117194)
-+ [Amazon - WEB+DB PRESS Vol.86](http://www.amazon.co.jp/dp/4774172480)
